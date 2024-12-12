@@ -13,34 +13,30 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: alas 10 tinggi 3
-      id: alas-10-tinggi-3
+    - name: Angka 9
+      id: angka-9
       uses: classroom-resources/autograding-io-grader@v1
       with:
-        test-name: alas 10 tinggi 3
+        test-name: Angka 9
         setup-command: javac Nomor1.java
         command: java Nomor1
-        input: |-
-          10
-          3
+        input: '9'
         expected-output: |-
-          15.0
+          0 1 2 Fizz 4 Buzz Fizz 7 8 Fizz
           2
         comparison-method: exact
         timeout: 10
         max-score: 10
-    - name: alas 6 tinggi 10
-      id: alas-6-tinggi-10
+    - name: angka 17
+      id: angka-17
       uses: classroom-resources/autograding-io-grader@v1
       with:
-        test-name: alas 6 tinggi 10
+        test-name: angka 17
         setup-command: javac Nomor1.java
         command: java Nomor1
-        input: |-
-          6
-          7
+        input: '17'
         expected-output: |-
-          21.0
+          0 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16 17
           2
         comparison-method: exact
         timeout: 10
@@ -93,9 +89,9 @@ jobs:
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        ALAS-10-TINGGI-3_RESULTS: "${{steps.alas-10-tinggi-3.outputs.result}}"
-        ALAS-6-TINGGI-10_RESULTS: "${{steps.alas-6-tinggi-10.outputs.result}}"
+        ANGKA-9_RESULTS: "${{steps.angka-9.outputs.result}}"
+        ANGKA-17_RESULTS: "${{steps.angka-17.outputs.result}}"
         SESUAI-SOAL_RESULTS: "${{steps.sesuai-soal.outputs.result}}"
         VARIASI_RESULTS: "${{steps.variasi.outputs.result}}"
       with:
-        runners: alas-10-tinggi-3,alas-6-tinggi-10,sesuai-soal,variasi
+        runners: angka-9,angka-17,sesuai-soal,variasi
