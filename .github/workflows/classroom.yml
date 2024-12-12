@@ -1,0 +1,101 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: alas 10 tinggi 3
+      id: alas-10-tinggi-3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: alas 10 tinggi 3
+        setup-command: javac Nomor1.java
+        command: java Nomor1
+        input: |-
+          10
+          3
+        expected-output: |-
+          15.0
+          2
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: alas 6 tinggi 10
+      id: alas-6-tinggi-10
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: alas 6 tinggi 10
+        setup-command: javac Nomor1.java
+        command: java Nomor1
+        input: |-
+          6
+          7
+        expected-output: |-
+          21.0
+          2
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Sesuai soal
+      id: sesuai-soal
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Sesuai soal
+        setup-command: javac Nomor2.java
+        command: java Nomor2
+        input: |-
+          1
+          2
+          Y
+          2
+          3
+          N
+        expected-output: |-
+          Total hamper yang dipesan = 2
+          Total yang harus dibayar = 577500.0
+          3
+        comparison-method: exact
+        timeout: 10
+        max-score: 30
+    - name: Variasi
+      id: variasi
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Variasi
+        setup-command: javac Nomor2.java
+        command: java Nomor2
+        input: |-
+          2
+          2
+          Y
+          3
+          3
+          Y
+          2
+          3
+          N
+        expected-output: |-
+          Total hamper yang dipesan = 3
+          Total yang harus dibayar = 962500.0
+          3
+        comparison-method: exact
+        timeout: 10
+        max-score: 40
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        ALAS-10-TINGGI-3_RESULTS: "${{steps.alas-10-tinggi-3.outputs.result}}"
+        ALAS-6-TINGGI-10_RESULTS: "${{steps.alas-6-tinggi-10.outputs.result}}"
+        SESUAI-SOAL_RESULTS: "${{steps.sesuai-soal.outputs.result}}"
+        VARIASI_RESULTS: "${{steps.variasi.outputs.result}}"
+      with:
+        runners: alas-10-tinggi-3,alas-6-tinggi-10,sesuai-soal,variasi
